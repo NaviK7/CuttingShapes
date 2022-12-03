@@ -7,7 +7,7 @@ import java.util.Comparator;
 /*
  * Класс-имплементация, реализующий метод сортировки класса Comparator
  */
-public class SegmentSortByY implements Comparator<Segment> {
+public class SegmentSortByY0 implements Comparator<Segment> {
     // метод реализует возрастающую сортировку отрезков по коодинате Y  первой точки отрезка
     @Override
     public int compare(Segment segment1, Segment segment2) {

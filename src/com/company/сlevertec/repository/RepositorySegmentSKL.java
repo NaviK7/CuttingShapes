@@ -14,7 +14,7 @@ public class RepositorySegmentSKL {
     //список  координат отрезков в СКЛ, данных в задаче
     private final List<Integer> integerList = new ArrayList<>(Arrays.asList(
             15, 0, 15, 3210,
-            0, 15, 6000, 15,
+            6000, 15, 0, 15,
             1500, 0, 1500, 3210,
             15, 1015, 1500, 1015,
             15, 2015, 1500, 2015,

@@ -1,7 +1,9 @@
 package com.company.сlevertec.service;
 
-import com.company.сlevertec.comparator.SegmentSortByX;
-import com.company.сlevertec.comparator.SegmentSortByY;
+import com.company.сlevertec.comparator.SegmentSortByX0;
+import com.company.сlevertec.comparator.SegmentSortByX1;
+import com.company.сlevertec.comparator.SegmentSortByY0;
+import com.company.сlevertec.comparator.SegmentSortByY1;
 import com.company.сlevertec.model.Figure;
 import com.company.сlevertec.model.PointElement;
 import com.company.сlevertec.model.Segment;
@@ -190,8 +192,36 @@ public class ServiceFigure {
      * возращает отсортированный список.
      */
     public List<Segment> getSortCommonSegmentsX0Y0() {
-        List<Segment> segmentList = new ArrayList<>(getCommonWithoutCrossSegments());
-        segmentList.sort(new SegmentSortByX().thenComparing(new SegmentSortByY()));
+        List<Segment> segmentList;
+        List<Segment> segmentList1 = new ArrayList<>(getCommonWithoutCrossSegments());
+        List<Segment> segmentList2 = new ArrayList<>(getCommonWithoutCrossSegments());
+        //сортировка по X и Y первой точки
+        segmentList1.sort(new SegmentSortByX0().thenComparing(new SegmentSortByY0()));
+        //сортировка по  X и Y второй точки
+        segmentList2.sort(new SegmentSortByX1().thenComparing(new SegmentSortByY1()));
+        //сравниваем отрезки двух отсортированных списков на ближайшее расположение к нулевой точке СКЛ
+        if (segmentList1.get(0).getPeak()[0].getX() <= segmentList2.get(0).getPeak()[1].getX() &
+                segmentList1.get(0).getPeak()[0].getY() <= segmentList2.get(0).getPeak()[1].getY()) {
+            segmentList = new ArrayList<>(segmentList1);
+        } else {
+            segmentList = new ArrayList<>(segmentList2);
+        }
+        /*
+         * в выбраном смиске проверяем координаты первоко отреска и если надо  разворачиваем концы отрезка так,
+         * чтоб точка ближайшая к началу координат стала первой по направлению движения резца
+         */
+        if (segmentList.get(0).getPeak()[0].getX() > segmentList.get(0).getPeak()[1].getX()) {
+            Segment segment = new Segment();
+            segment.getPeak()[0].setX(segmentList.get(0).getPeak()[0].getX());
+            segment.getPeak()[0].setY(segmentList.get(0).getPeak()[0].getY());
+            segment.getPeak()[1].setX(segmentList.get(0).getPeak()[1].getX());
+            segment.getPeak()[1].setY(segmentList.get(0).getPeak()[1].getY());
+
+            segmentList.get(0).getPeak()[0].setX(segmentList.get(0).getPeak()[1].getX());
+            segmentList.get(0).getPeak()[0].setY(segmentList.get(0).getPeak()[1].getY());
+            segmentList.get(0).getPeak()[1].setX(segment.getPeak()[0].getX());
+            segmentList.get(0).getPeak()[1].setY(segment.getPeak()[0].getY());
+        }
         return segmentList;
     }
 
