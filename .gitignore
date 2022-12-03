@@ -1,2 +1,6 @@
 # Project exclude paths
 /out/
+#Intellij IDEA
+.idea
+#Intellij IDEA
+ClevertecTask3.iml
