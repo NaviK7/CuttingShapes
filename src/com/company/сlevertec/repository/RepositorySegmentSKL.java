@@ -11,7 +11,7 @@ import java.util.List;
  * координаты отрезков в СКЛ
  */
 public class RepositorySegmentSKL {
-    //список с координат отрезков в СКЛ, данных в задаче
+    //список  координат отрезков в СКЛ, данных в задаче
     private final List<Integer> integerList = new ArrayList<>(Arrays.asList(
             15, 0, 15, 3210,
             0, 15, 6000, 15,

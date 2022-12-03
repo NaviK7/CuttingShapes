@@ -3,6 +3,7 @@ package com.company.сlevertec.service;
 import com.company.сlevertec.comparator.SegmentSortByX;
 import com.company.сlevertec.comparator.SegmentSortByY;
 import com.company.сlevertec.model.Figure;
+import com.company.сlevertec.model.PointElement;
 import com.company.сlevertec.model.Segment;
 import com.company.сlevertec.repository.RepositoryFigureSKF;
 import com.company.сlevertec.repository.RepositorySegmentSKL;
@@ -32,6 +33,26 @@ public class ServiceFigure {
                         repositoryFigureSKF.startingPointsFigure().get(i).getY());
             }
             figureListSKL.add(figureSKL);
+        }
+        return figureListSKL;
+    }
+
+    /*
+     * Метод преобразования координат фигуры из СКФ в СКЛ.
+     * Воззвращает новый список с преобразованными  кординатами в СКЛ фигур.
+     */
+    public List<Figure> getFromMapFigureSKL() {
+        List<Figure> figureListSKL = new ArrayList<>();
+        int k = 0;
+        for (Map.Entry<Figure, PointElement> figureListSKF : repositoryFigureSKF.getMapFigureSKF().entrySet()) {
+            Figure figureSKL = new Figure();
+            while (k < 4) {
+                figureSKL.getPeak()[k].setX(figureListSKF.getKey().getPeak()[k].getX() + figureListSKF.getValue().getX());
+                figureSKL.getPeak()[k].setY(figureListSKF.getKey().getPeak()[k].getY() + figureListSKF.getValue().getY());
+                k++;
+            }
+            figureListSKL.add(figureSKL);
+            k = 0;
         }
         return figureListSKL;
     }
@@ -262,7 +283,7 @@ public class ServiceFigure {
             /*
              * так как найденный следующий отрезок может прийти с перевернутыми точками,
              * то для того чтоб его удалить проверяем его на эквивалентность со своим начальным положением и
-             * в случае совпадения, удаляем его, чтоб не учитывать его в последующем поиске нужного отрека
+             * в случае совпадения, удаляем его, чтоб не учитывать его в последующем поиске нужного отрезка
              */
             for (Segment segment : segmentList) {
                 if (segment.getPeak()[0].getX() == (segmentNext.getPeak()[0].getX()) &&
